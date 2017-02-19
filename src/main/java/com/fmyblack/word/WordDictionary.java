@@ -21,7 +21,7 @@ public class WordDictionary implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static String wordFile = "/Users/fmyblack/javaproject/fmyblack-spark/src/main/resources/data/words.data";
+	public static String wordFile = "/Users/fmyblack/javaproject/textClassify/src/main/resources/data/words.data";
 	
 	// 正在使用的词语类型
 	public static final int usingWordType = 1;
