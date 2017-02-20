@@ -1,18 +1,24 @@
 package com.fmyblack.word;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Rmm {
+public class Rmm  implements Serializable{
 
-    private WordDictionary wdBc = null;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5169484994968903393L;
+	
+	private WordDictionary wdBc = null;
 
     public static void main(String[] args) throws IOException, IllegalAccessException {
 //        final WordDictionary wordDict = WordDictionary.getIns();
         Rmm wp = new Rmm();
 //        wp.wdBc = wordDict;
-        List<String> words = wp.wordAlgorithm("我们北京大学的学生都是他们的好孩子");
+        List<String> words = wp.rmmSegment("我们北京大学的学生都是他们的好孩子");
         System.out.println(words.toString());
     }
     
@@ -29,7 +35,7 @@ public class Rmm {
      * 
      * @param segment
      */
-    public List<String> wordAlgorithm(String segment){
+    public List<String> rmmSegment(String segment){
         List<String> list = new ArrayList<String>();
         
         String s1 = segment;
