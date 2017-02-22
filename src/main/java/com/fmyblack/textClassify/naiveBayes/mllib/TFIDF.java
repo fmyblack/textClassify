@@ -51,7 +51,6 @@ public class TFIDF {
 		for (Vector sample : idfModel.transform(vectors).take(10)) {
 			System.out.println(sample);
 		}
-
 	}
 
 	public static JavaPairRDD<String, Vector> tfidf(JavaPairRDD<String, Vector> tfDocuments, final IDFModel idfModel) {
