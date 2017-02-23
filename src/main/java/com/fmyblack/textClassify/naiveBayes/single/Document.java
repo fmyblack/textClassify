@@ -2,7 +2,7 @@ package com.fmyblack.textClassify.naiveBayes.single;
 
 import java.util.*;
 
-public class Document {
+public class Document{
 
 	private Map<String, Integer> wordsFrequency = new HashMap<String, Integer>();
 	private int wordsNum = 0;

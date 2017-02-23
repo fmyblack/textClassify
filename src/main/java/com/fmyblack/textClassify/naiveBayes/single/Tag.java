@@ -1,19 +1,27 @@
 package com.fmyblack.textClassify.naiveBayes.single;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
-public class Tag {
+public class Tag{
 
 	private static double lambda = 0.00001;
 	
+	// 训练前
 	List<Document> docs = new ArrayList<Document>();
 	String name;
 	
+	// 训练后
 	boolean isTrained = false;
 	Set<String> words = new HashSet<String>();
 	Map<String, Double> wordsProbility = new HashMap<String, Double>();
 	int wordsNum;
 	double tagProbility = 1.0;
+	
+	private Tag(){};
 	
 	public Tag(String name) {
 		this.name = name;
@@ -94,5 +102,28 @@ public class Tag {
 	@Override
 	public String toString() {
 		return this.name + this.wordsProbility.toString();
+	}
+	
+	public void save(FileWriter file) throws IOException {
+		StringBuilder sb = new StringBuilder();
+		sb.append(this.name + "\t");
+		sb.append(this.tagProbility + "\t");
+		for(Map.Entry<String, Double> entry : this.wordsProbility.entrySet()) {
+			sb.append(entry.getKey() + ":" + entry.getValue() + ";");
+		}
+		file.write(sb.toString() + "\r\n");
+	}
+	
+	public static Tag load(String savedTag) {
+		Tag tag = new Tag();
+		String[] cols = savedTag.split("\t");
+		tag.name = cols[0];
+		tag.tagProbility = Double.parseDouble(cols[1]);
+		for(String wordProbility : cols[2].split(";")) {
+			String word = wordProbility.split(":")[0];
+			String probility = wordProbility.split(":")[1];
+			tag.wordsProbility.put(word, Double.parseDouble(probility));
+		}
+		return tag;
 	}
 }
