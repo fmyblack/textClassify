@@ -41,7 +41,7 @@ public class TFIDF {
 	}
 	
 	public double caculateIdf(int td) {
-		return Math.log( this.documentsNum * 1.0d / td );
+		return Math.log( (this.documentsNum + 2) * 1.0d / (td + 1) );
 	}
 	
 	public static void main(String[] args) {

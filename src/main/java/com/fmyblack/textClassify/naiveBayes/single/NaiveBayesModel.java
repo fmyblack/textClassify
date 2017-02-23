@@ -37,11 +37,11 @@ public class NaiveBayesModel {
 		Document doc = new Document(words);
 		Map<String, Integer> wordsFre = doc.getWordsFrequency();
 		Result currentResult = null;
-		double maxAccuracy = 1.0;
+		double maxAccuracy = 0.0;
 		for(Tag tag : this.tags) {
 			Result tmpResult = tag.caculateAccuracy(wordsFre);
 //			System.out.println(tmpResult.toString());
-			if(tmpResult.getAccuracy() < maxAccuracy) {
+			if(tmpResult.getAccuracy() > maxAccuracy) {
 				currentResult = tmpResult;
 				maxAccuracy = currentResult.getAccuracy();
 			}

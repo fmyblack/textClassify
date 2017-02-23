@@ -4,6 +4,8 @@ import java.util.*;
 
 public class Tag {
 
+	private static double lambda = 0.00001;
+	
 	List<Document> docs = new ArrayList<Document>();
 	String name;
 	
@@ -22,7 +24,8 @@ public class Tag {
 	}
 	
 	public void train(Map<String, Double> wordsIdf, int documentsNum) {
-		this.initWords();
+//		this.initWords();
+		this.initWords(wordsIdf);
 		this.caculateWordsProbility(wordsIdf);
 		this.tagProbility = docs.size() * 1.0 / documentsNum;
 		this.isTrained = true;
@@ -39,7 +42,7 @@ public class Tag {
 		if(idf == null) {
 			return 0;
 		} else {
-			return this.tf(word) * 1.0 / this.wordsNum * idf;
+			return (this.tf(word) + lambda ) * 1.0 / ( (this.wordsNum + 1 ) * lambda ) * this.wordsNum * idf;
 		}
 	}
 	
@@ -48,6 +51,11 @@ public class Tag {
 			this.words.addAll(doc.getWords());
 			this.wordsNum += doc.getWordsNum();
 		}
+	}
+	
+	private void initWords(Map<String, Double> wordsIdf) {
+		this.words = wordsIdf.keySet();
+		this.wordsNum = this.words.size();
 	}
 	
 	private int tf(String word) {
@@ -77,9 +85,9 @@ public class Tag {
 			if(tfidf == null || tfidf.equals(0)) {
 				continue;
 			}
-			accuracy *= tfidf * freq;
+			accuracy += Math.log(tfidf * freq);
 		}
-		accuracy *= this.tagProbility;
+		accuracy += Math.log(this.tagProbility);
 		return new Result(this.name, accuracy);
 	}
 	
