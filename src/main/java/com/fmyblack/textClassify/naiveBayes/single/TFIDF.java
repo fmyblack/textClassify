@@ -1,6 +1,10 @@
 package com.fmyblack.textClassify.naiveBayes.single;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -9,6 +13,11 @@ public class TFIDF {
 
 	Set<String> words;
 	int documentsNum;
+	
+	private TFIDF(String[] words) {
+		this.words = new HashSet<String>();
+		this.words.addAll(Arrays.asList(words));
+	}
 	
 	public TFIDF(int documentsNum, Set<String> words) {
 		this.documentsNum = documentsNum;
@@ -42,6 +51,18 @@ public class TFIDF {
 	
 	public double caculateIdf(int td) {
 		return Math.log( (this.documentsNum + 2) * 1.0d / (td + 1) );
+	}
+	
+	public void save(FileWriter file) throws IOException {
+		StringBuilder sb = new StringBuilder();
+		for(String word : this.words) {
+			sb.append(word + " ");
+		}
+		file.write(sb.toString() + "\r\n");
+	}
+	
+	public static TFIDF load(String savedWord) {
+		return new TFIDF(savedWord.split(" "));
 	}
 	
 	public static void main(String[] args) {

@@ -19,6 +19,7 @@ public class Tag{
 	Set<String> words = new HashSet<String>();
 	Map<String, Double> wordsProbility = new HashMap<String, Double>();
 	int wordsNum;
+	double zeroWordProbility = -1;
 	double tagProbility = 1.0;
 	
 	private Tag(){};
@@ -32,31 +33,40 @@ public class Tag{
 	}
 	
 	public void train(Map<String, Double> wordsIdf, int documentsNum) {
-//		this.initWords();
-		this.initWords(wordsIdf);
+		this.initWords();
+//		this.initWords(wordsIdf);
 		this.caculateWordsProbility(wordsIdf);
 		this.tagProbility = docs.size() * 1.0 / documentsNum;
 		this.isTrained = true;
 	}
 	
 	private void caculateWordsProbility(Map<String, Double> wordsIdf) {
-		for(String word : this.words) {
-			Double idf = wordsIdf.get(word);
-			this.wordsProbility.put(word, caculateWordProbility(idf, word));
+		int allWordsNum = wordsIdf.size();
+		for(Map.Entry<String, Double> entry : wordsIdf.entrySet()) {
+			String word = entry.getKey();
+			double idf = entry.getValue();
+			int wordTf = this.tf(word);
+			if(wordTf == 0) {
+				caculateZeroTfProbility(idf);
+			} else {
+				this.wordsProbility.put(word, caculateWordProbility(idf, wordTf, allWordsNum));
+			}
 		}
 	}
 	
-	private double caculateWordProbility(Double idf, String word) {
-		if(idf == null) {
-			return 0;
-		} else {
-			return (this.tf(word) + lambda ) * 1.0 / ( (this.wordsNum + 1 ) * lambda ) * this.wordsNum * idf;
+	private void caculateZeroTfProbility(double idf) {
+		if(this.zeroWordProbility < 0) {
+			this.zeroWordProbility = lambda / ( this.wordsNum + wordsNum * lambda ) * this.wordsNum * idf;
 		}
+	}
+	
+	private double caculateWordProbility(double idf, int tf, int wordsNum) {
+		return (tf + lambda ) * 1.0 / ( this.wordsNum + wordsNum * lambda ) * this.wordsNum * idf;
 	}
 	
 	private void initWords() {
 		for(Document doc : docs) {
-			this.words.addAll(doc.getWords());
+//			this.words.addAll(doc.getWords());
 			this.wordsNum += doc.getWordsNum();
 		}
 	}
@@ -84,19 +94,30 @@ public class Tag{
 		return td;
 	}
 	
-	public Result caculateAccuracy(Map<String, Integer> wordsFre) {
+	public Result caculateAccuracy(Map<String, Integer> wordsFre, Set<String> trainWords) {
 		double accuracy = 1.0;
 		for(Map.Entry<String, Integer> wordFre : wordsFre.entrySet()) {
 			String wordName = wordFre.getKey();
 			int freq = wordFre.getValue();
-			Double tfidf = this.wordsProbility.get(wordName);
-			if(tfidf == null || tfidf.equals(0)) {
+			if(!trainWords.contains(wordName)) {
 				continue;
 			}
-			accuracy += Math.log(tfidf * freq);
+			double wordProbility = this.getWordProbility(wordName);
+//			if(tfidf == null || tfidf.equals(0)) {
+//				continue;
+//			}
+			accuracy += Math.log(wordProbility * freq);
 		}
 		accuracy += Math.log(this.tagProbility);
 		return new Result(this.name, accuracy);
+	}
+	
+	private double getWordProbility(String wordName) {
+		if(this.wordsProbility.containsKey(wordName)) {
+			return this.wordsProbility.get(wordName);
+		} else {
+			return this.zeroWordProbility;
+		}
 	}
 	
 	@Override
