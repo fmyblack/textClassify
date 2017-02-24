@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.*;
 
-public class Tag{
+import com.fmyblack.textClassify.tfidf.Document;
+import com.fmyblack.textClassify.tfidf.TagBase;
+
+public class Tag extends TagBase{
 
 	private static double lambda = 0.00001;
 	
@@ -129,6 +132,7 @@ public class Tag{
 		StringBuilder sb = new StringBuilder();
 		sb.append(this.name + "\t");
 		sb.append(this.tagProbility + "\t");
+		sb.append(this.zeroWordProbility + "\t");
 		for(Map.Entry<String, Double> entry : this.wordsProbility.entrySet()) {
 			sb.append(entry.getKey() + ":" + entry.getValue() + ";");
 		}
@@ -140,7 +144,8 @@ public class Tag{
 		String[] cols = savedTag.split("\t");
 		tag.name = cols[0];
 		tag.tagProbility = Double.parseDouble(cols[1]);
-		for(String wordProbility : cols[2].split(";")) {
+		tag.zeroWordProbility = Double.parseDouble(cols[2]);
+		for(String wordProbility : cols[3].split(";")) {
 			String word = wordProbility.split(":")[0];
 			String probility = wordProbility.split(":")[1];
 			tag.wordsProbility.put(word, Double.parseDouble(probility));

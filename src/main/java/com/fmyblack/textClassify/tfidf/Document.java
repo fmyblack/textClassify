@@ -1,4 +1,4 @@
-package com.fmyblack.textClassify.naiveBayes.single;
+package com.fmyblack.textClassify.tfidf;
 
 import java.util.*;
 
@@ -29,11 +29,6 @@ public class Document{
 	}
 	
 	public int tf(String word) {
-		if(wordsFrequency == null) {
-			System.out.println("?");
-		} else if(word == null) {
-			System.out.println("word ?");
-		}
 		return wordsFrequency.containsKey(word) ? wordsFrequency.get(word) : 0;
 	}
 	

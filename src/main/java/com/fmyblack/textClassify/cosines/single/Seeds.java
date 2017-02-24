@@ -1,4 +1,4 @@
-package com.fmyblack.textClassify.naiveBayes.single;
+package com.fmyblack.textClassify.cosines.single;
 
 import java.io.File;
 import java.util.ArrayList;
