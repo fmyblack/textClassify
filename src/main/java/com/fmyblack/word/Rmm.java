@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Rmm  implements Serializable{
+public class Rmm implements Serializable{
 
     /**
 	 * 

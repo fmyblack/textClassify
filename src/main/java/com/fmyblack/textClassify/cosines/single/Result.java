@@ -25,6 +25,6 @@ public class Result {
 	
 	@Override
 	public String toString() {
-		return this.tag + "\t" + this.accuracy;
+		return this.tag + "\t" + this.accuracy * 10;
 	}
 }

@@ -51,6 +51,9 @@ public class TFIDF {
 		for (Vector sample : idfModel.transform(vectors).take(10)) {
 			System.out.println(sample);
 		}
+		
+		List<String> l = Arrays.asList(new String[]{"a", "c", "d", "e"});
+		System.out.println(idfModel.transform(tf(l)));
 	}
 
 	public static JavaPairRDD<String, Vector> tfidf(JavaPairRDD<String, Vector> tfDocuments, final IDFModel idfModel) {
@@ -101,6 +104,11 @@ public class TFIDF {
 	public static JavaRDD<Vector> tf(JavaRDD<List<String>> documentsSegmentation) {
 		HashingTF hashingTF = new HashingTF();
 		return hashingTF.transform(documentsSegmentation);
+	}
+	
+	public static Vector tf(List<String> list) {
+		HashingTF hashingTF = new HashingTF();
+		return hashingTF.transform(list);
 	}
 
 	public static JavaPairRDD<String, List<String>> rmmForLabeledDocuments(
