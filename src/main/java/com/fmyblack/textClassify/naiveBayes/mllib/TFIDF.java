@@ -13,6 +13,7 @@ import org.apache.spark.mllib.feature.HashingTF;
 import org.apache.spark.mllib.feature.IDF;
 import org.apache.spark.mllib.feature.IDFModel;
 import org.apache.spark.mllib.linalg.Vector;
+import org.apache.spark.mllib.linalg.Vectors;
 
 import com.fmyblack.word.Rmm;
 
@@ -44,16 +45,25 @@ public class TFIDF {
 		});
 
 		JavaRDD<Vector> vectors = tf(test);
+		Vector v;
 		for (Vector ori : vectors.take(10)) {
+//			if(v == null) {
+//				v = ori;
+//			} else {
+//				v.
+//			}
 			System.out.println(ori);
+			for(Double d : ori.toArray()) {
+				System.out.println(d);
+			}
 		}
-		IDFModel idfModel = idf(vectors);
-		for (Vector sample : idfModel.transform(vectors).take(10)) {
-			System.out.println(sample);
-		}
-		
-		List<String> l = Arrays.asList(new String[]{"a", "c", "d", "e"});
-		System.out.println(idfModel.transform(tf(l)));
+//		IDFModel idfModel = idf(vectors);
+//		for (Vector sample : idfModel.transform(vectors).take(10)) {
+//			System.out.println(sample);
+//		}
+//		
+//		List<String> l = Arrays.asList(new String[]{"a", "c", "d", "e"});
+//		System.out.println(idfModel.transform(tf(l)));
 	}
 
 	public static JavaPairRDD<String, Vector> tfidf(JavaPairRDD<String, Vector> tfDocuments, final IDFModel idfModel) {
@@ -133,4 +143,5 @@ public class TFIDF {
 			}
 		});
 	}
+	
 }

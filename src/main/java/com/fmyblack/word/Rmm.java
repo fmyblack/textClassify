@@ -18,7 +18,7 @@ public class Rmm implements Serializable{
 //        final WordDictionary wordDict = WordDictionary.getIns();
         Rmm wp = new Rmm();
 //        wp.wdBc = wordDict;
-        List<String> words = wp.rmmSegment("我们北京大学的学生都是他们的好孩子");
+        List<String> words = wp.rmmSegment("海军首次举行授剑仪式 军方3大佩剑都长啥样？_国内新闻_环球网");
         System.out.println(words.toString());
     }
     
