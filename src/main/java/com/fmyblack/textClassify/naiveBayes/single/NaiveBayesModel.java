@@ -115,10 +115,10 @@ public class NaiveBayesModel{
 		NaiveBayesModel nbm = NaiveBayesModel.train(seedsDir);
 		nbm.save(resultOut);
 //		
-		NaiveBayesModel newNbm = NaiveBayesModel.load(resultOut);
+//		NaiveBayesModel newNbm = NaiveBayesModel.load(resultOut);
 //		
-        test(newNbm, seedsDir);
-        testNewFile(newNbm);
+        test(nbm, seedsDir);
+        testNewFile(nbm);
 	}
 	
 	public static void testNewFile(NaiveBayesModel nbm) {
@@ -132,6 +132,7 @@ public class NaiveBayesModel{
 				+ "简章规定，从今年开始，国际学生不需要考试，只要通过HSK汉语水平测试，就可以申请清华大学本科。而以往所有申请清华本科的国际学生，都需要先参加4至5个科目的考试，然后再加试或面试后录取。"
 				+ "网友为此惊呼：“十年寒窗不如一纸国籍，清华新政让中国考生欲哭无泪！”人们担心，清华为外籍学生设置的入学门槛太低，对国内考生不公平。更担心的是，清华新政一出，有条件的家长，完全可以让子女放弃中国国籍，以“移民”的方法曲线上清华。"
 				+ "据报道，很多东南亚或非洲小国移民中介机构，已经打出了“免试上清华”的宣传口号，提供整体解决方案。"
+				+ "写写"
 				;
 				Result r = nbm.classify(text);
 		System.out.println(r.toString());

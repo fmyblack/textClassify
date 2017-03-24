@@ -50,21 +50,21 @@ public class Tag extends TagBase{
 			double idf = entry.getValue();
 			int wordTf = this.tf(word);
 			if(wordTf == 0) {
-				caculateZeroTfProbility(idf);
+				caculateZeroTfProbility(idf, allWordsNum);
 			} else {
 				this.wordsProbility.put(word, caculateWordProbility(idf, wordTf, allWordsNum));
 			}
 		}
 	}
 	
-	private void caculateZeroTfProbility(double idf) {
+	private void caculateZeroTfProbility(double idf, int allWordsNum) {
 		if(this.zeroWordProbility < 0) {
-			this.zeroWordProbility = lambda / ( this.wordsNum + wordsNum * lambda ) * this.wordsNum * idf;
+			this.zeroWordProbility = lambda / ( this.wordsNum + allWordsNum * lambda ) * idf;
 		}
 	}
 	
-	private double caculateWordProbility(double idf, int tf, int wordsNum) {
-		return (tf + lambda ) * 1.0 / ( this.wordsNum + wordsNum * lambda ) * this.wordsNum * idf;
+	private double caculateWordProbility(double idf, int tf, int allWordsNum) {
+		return (tf + lambda ) * 1.0 / ( this.wordsNum + allWordsNum * lambda ) * idf;
 	}
 	
 	private void initWords() {
@@ -98,7 +98,7 @@ public class Tag extends TagBase{
 	}
 	
 	public Result caculateAccuracy(Map<String, Integer> wordsFre, Set<String> trainWords) {
-		double accuracy = 1.0;
+		double accuracy = 0.0;
 		for(Map.Entry<String, Integer> wordFre : wordsFre.entrySet()) {
 			String wordName = wordFre.getKey();
 			int freq = wordFre.getValue();
@@ -106,12 +106,9 @@ public class Tag extends TagBase{
 				continue;
 			}
 			double wordProbility = this.getWordProbility(wordName);
-//			if(tfidf == null || tfidf.equals(0)) {
-//				continue;
-//			}
-			accuracy += Math.log(wordProbility * freq);
+			accuracy += Math.log(wordProbility * freq + 1);
 		}
-		accuracy += Math.log(this.tagProbility);
+//		accuracy += Math.log(this.tagProbility);
 		return new Result(this.name, accuracy);
 	}
 	
