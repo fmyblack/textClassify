@@ -59,12 +59,12 @@ public class Tag extends TagBase{
 	
 	private void caculateZeroTfProbility(double idf, int allWordsNum) {
 		if(this.zeroWordProbility < 0) {
-			this.zeroWordProbility = lambda / ( this.wordsNum + allWordsNum * lambda ) * idf;
+			this.zeroWordProbility = lambda / ( this.wordsNum + allWordsNum * lambda ) * Math.pow(idf, NaiveBayesModel.idfPower);
 		}
 	}
 	
 	private double caculateWordProbility(double idf, int tf, int allWordsNum) {
-		return (tf + lambda ) * 1.0 / ( this.wordsNum + allWordsNum * lambda ) * idf;
+		return (tf + lambda ) * 1.0 / ( this.wordsNum + allWordsNum * lambda ) * Math.pow(idf, NaiveBayesModel.idfPower);
 	}
 	
 	private void initWords() {

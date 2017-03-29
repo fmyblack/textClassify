@@ -1,5 +1,7 @@
 package com.fmyblack.word;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,8 +20,24 @@ public class Rmm implements Serializable{
 //        final WordDictionary wordDict = WordDictionary.getIns();
         Rmm wp = new Rmm();
 //        wp.wdBc = wordDict;
-        List<String> words = wp.rmmSegment("海军首次举行授剑仪式 军方3大佩剑都长啥样？_国内新闻_环球网");
-        System.out.println(words.toString());
+        BufferedReader br = new BufferedReader(new FileReader("/Users/fmyblack/javaproject/textClassify/src/main/resources/test/test1"));
+        StringBuilder test = new StringBuilder();
+        String line = null;
+        while((line = br.readLine()) != null) {
+        		test.append(line);
+        }
+        List<String> words = wp.rmmSegment(test.toString());
+        int i = 0;
+        StringBuilder show = new StringBuilder();
+        for(String word : words) {
+        		show.append(word + " ");
+        		i++;
+        		if(i == 20) {
+        			show.append("\n");
+        			i = 0;
+        		}
+        }
+        System.out.println(show.toString());
     }
     
     public Rmm() {

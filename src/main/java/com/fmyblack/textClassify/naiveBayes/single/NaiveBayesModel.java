@@ -18,6 +18,7 @@ public class NaiveBayesModel{
 	List<TagBase> tags;
 	TFIDF tfidf;
 	Rmm rmm;
+	static int idfPower = 3;
 	
 	private NaiveBayesModel(){
 		rmm = new Rmm();
