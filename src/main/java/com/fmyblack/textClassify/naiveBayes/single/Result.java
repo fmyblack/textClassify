@@ -13,6 +13,11 @@ public class Result {
 	public String getTag() {
 		return tag;
 	}
+
+	public void setAccuracy(double accuracy) {
+		this.accuracy = accuracy;
+	}
+	
 	public double getAccuracy() {
 		return accuracy;
 	}

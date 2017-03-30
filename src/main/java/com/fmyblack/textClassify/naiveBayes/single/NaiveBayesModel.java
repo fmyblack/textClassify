@@ -18,7 +18,8 @@ public class NaiveBayesModel{
 	List<TagBase> tags;
 	TFIDF tfidf;
 	Rmm rmm;
-	static int idfPower = 3;
+	static int idfPower = 2;
+	static double lambda = 0.0000001;
 	
 	private NaiveBayesModel(){
 		rmm = Rmm.getIns();
@@ -57,6 +58,7 @@ public class NaiveBayesModel{
 				maxAccuracy = currentResult.getAccuracy();
 			}
 		}
+		currentResult.setAccuracy(maxAccuracy / words.size() * 100);
 		return currentResult;
 	}
 	
@@ -112,14 +114,16 @@ public class NaiveBayesModel{
 	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException {
 		String dir = "/Users/fmyblack/javaproject/textClassify/src/main/resources/data";
 		String seedsDir = dir + File.separator + "nbc_seeds";
+		String testDir = dir + File.separator + "test_data";
 		String resultOut = dir + File.separator + "result.out";
 		NaiveBayesModel nbm = NaiveBayesModel.train(seedsDir);
 		nbm.save(resultOut);
 //		
-//		NaiveBayesModel newNbm = NaiveBayesModel.load(resultOut);
+//		NaiveBayesModel nbm = NaiveBayesModel.load(resultOut);
 //		
-        test(nbm, seedsDir);
-        testNewFile(nbm);
+//        test(nbm, seedsDir);
+        testNew(nbm, testDir);
+//		testNewFile(nbm);
 	}
 	
 	public static void testNewFile(NaiveBayesModel nbm) {
@@ -158,5 +162,47 @@ public class NaiveBayesModel{
 		}
 		System.out.println("all:\t" + all);
 		System.out.println("right:\t" + right);
+	}
+	
+	public static void testNew(NaiveBayesModel nbm, String dir) {
+		int all = 0;
+		int right = 0;
+		int none = 0;
+		for(String seed : new File(dir).list()) {
+			String newDir = dir + File.separator + seed;
+			for(String textName : new File(newDir).list()) {
+				String text = readFile(newDir + File.separator + textName);
+				Result r = nbm.classify(text);
+				all++;
+				if(r == null) {
+					none++;
+					continue;
+				} else {
+					System.out.println(seed + "\t" + r.toString());
+				}
+				if( seed.equals(r.getTag())) {
+					right++;
+				}
+			}
+		}
+		System.out.println("all:\t" + all);
+		System.out.println("right:\t" + right);
+		System.out.println("none:\t" + none);
+	}
+	
+	public static String readFile(String filePath) {
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(filePath));
+			StringBuilder text = new StringBuilder();
+			String line = null;
+			while((line = br.readLine()) != null) {
+				text.append(line);
+			}
+			return text.toString();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

@@ -11,8 +11,6 @@ import com.fmyblack.textClassify.tfidf.TagBase;
 
 public class Tag extends TagBase{
 
-	private static double lambda = 0.00001;
-	
 	// 训练前
 	List<Document> docs = new ArrayList<Document>();
 	String name;
@@ -59,12 +57,12 @@ public class Tag extends TagBase{
 	
 	private void caculateZeroTfProbility(double idf, int allWordsNum) {
 		if(this.zeroWordProbility < 0) {
-			this.zeroWordProbility = lambda / ( this.wordsNum + allWordsNum * lambda ) * Math.pow(idf, NaiveBayesModel.idfPower);
+			this.zeroWordProbility = NaiveBayesModel.lambda / ( this.wordsNum + allWordsNum * NaiveBayesModel.lambda ) * Math.pow(idf, NaiveBayesModel.idfPower);
 		}
 	}
 	
 	private double caculateWordProbility(double idf, int tf, int allWordsNum) {
-		return (tf + lambda ) * 1.0 / ( this.wordsNum + allWordsNum * lambda ) * Math.pow(idf, NaiveBayesModel.idfPower);
+		return (tf + NaiveBayesModel.lambda ) * 1.0 / ( this.wordsNum + allWordsNum * NaiveBayesModel.lambda ) * Math.pow(idf, NaiveBayesModel.idfPower);
 	}
 	
 	private void initWords() {
