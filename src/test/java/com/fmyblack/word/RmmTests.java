@@ -9,13 +9,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.fmyblack.word.rmm.Rmm;
+
 public class RmmTests {
 
 	Rmm rmm;
 	
 	@Before
 	public void setUp() {
-		rmm = new Rmm();
+		rmm = Rmm.getIns();
 	}
 	
 	@Test

@@ -15,7 +15,7 @@ import org.apache.spark.mllib.feature.IDFModel;
 import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.mllib.linalg.Vectors;
 
-import com.fmyblack.word.Rmm;
+import com.fmyblack.word.rmm.Rmm;
 
 import scala.Tuple2;
 
@@ -123,7 +123,7 @@ public class TFIDF {
 
 	public static JavaPairRDD<String, List<String>> rmmForLabeledDocuments(
 			JavaPairRDD<String, String> labeledDocuments) {
-		final Rmm rmm = new Rmm();
+		final Rmm rmm = Rmm.getIns();
 		return labeledDocuments.mapToPair(new PairFunction<Tuple2<String, String>, String, List<String>>() {
 			@Override
 			public Tuple2<String, List<String>> call(Tuple2<String, String> labeledDocument) throws Exception {
@@ -134,7 +134,7 @@ public class TFIDF {
 	}
 
 	public static JavaRDD<List<String>> rmmForDocuments(JavaRDD<String> documents) {
-		final Rmm rmm = new Rmm();
+		final Rmm rmm = Rmm.getIns();
 		return documents.map(new Function<String, List<String>>() {
 			@Override
 			public List<String> call(String doc) throws Exception {

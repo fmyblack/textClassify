@@ -9,7 +9,7 @@ import java.util.Set;
 import com.fmyblack.common.FileReaderUtil;
 import com.fmyblack.textClassify.tfidf.Document;
 import com.fmyblack.textClassify.tfidf.TagBase;
-import com.fmyblack.word.Rmm;
+import com.fmyblack.word.rmm.Rmm;
 
 public class Seeds {
 
@@ -21,7 +21,7 @@ public class Seeds {
 	
 	public Seeds(String seedsDirPath) {
 		this.seedsDirPath = seedsDirPath;
-		rmm = new Rmm();
+		rmm = Rmm.getIns();
 		this.readSeeds();
 	}
 	

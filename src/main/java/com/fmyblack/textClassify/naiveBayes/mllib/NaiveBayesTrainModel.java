@@ -20,7 +20,7 @@ import org.apache.spark.mllib.regression.LabeledPoint;
 
 import com.fmyblack.common.ConfigHelper;
 import com.fmyblack.common.JavaSparkContextSingleTon;
-import com.fmyblack.word.Rmm;
+import com.fmyblack.word.rmm.Rmm;
 
 import scala.Tuple2;
 
@@ -115,7 +115,7 @@ public class NaiveBayesTrainModel implements Serializable{
 		}
 		List<String> seedDirNames = ReadSeedsFile.listSeedDir(dir);
 		JavaPairRDD<String, String> labeledDocuments = ReadSeedsFile.readSeed(seedDirNames, jsc);
-		final Rmm rmm = new Rmm();
+		final Rmm rmm = Rmm.getIns();
 		List<Tuple2<String, Double>> results = labeledDocuments.mapToPair(new PairFunction<Tuple2<String,String>, String, List<String>>() {
 			/**
 			 * 

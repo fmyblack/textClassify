@@ -11,7 +11,7 @@ import java.util.*;
 import com.fmyblack.common.FileReaderUtil;
 import com.fmyblack.textClassify.tfidf.Document;
 import com.fmyblack.textClassify.tfidf.TagBase;
-import com.fmyblack.word.Rmm;
+import com.fmyblack.word.rmm.Rmm;
 
 public class NaiveBayesModel{
 
@@ -21,7 +21,7 @@ public class NaiveBayesModel{
 	static int idfPower = 3;
 	
 	private NaiveBayesModel(){
-		rmm = new Rmm();
+		rmm = Rmm.getIns();
 	};
 	
 	public static NaiveBayesModel train(String seedsDir) {

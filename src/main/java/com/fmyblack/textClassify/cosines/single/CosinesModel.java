@@ -10,7 +10,7 @@ import java.util.Set;
 import com.fmyblack.common.FileReaderUtil;
 import com.fmyblack.textClassify.tfidf.Document;
 import com.fmyblack.textClassify.tfidf.TagBase;
-import com.fmyblack.word.Rmm;
+import com.fmyblack.word.rmm.Rmm;
 
 public class CosinesModel {
 
@@ -20,7 +20,7 @@ public class CosinesModel {
 	Rmm rmm;
 	
 	private CosinesModel(){
-		rmm = new Rmm();
+		rmm = Rmm.getIns();
 	};
 	
 	public static CosinesModel train(String seedsDir) {
