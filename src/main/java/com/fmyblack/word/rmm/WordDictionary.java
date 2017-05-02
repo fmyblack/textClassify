@@ -29,7 +29,8 @@ public class WordDictionary {
 	}
 	
 	private WordDictionary() {
-		String wordFile = "/Users/fmyblack/data/ik/main.dic";
+		String wordFile = "/Users/fmyblack/javaproject/textClassify/src/main/resources/data/nls_dict.data";
+//		String wordFile = "/Users/fmyblack/data/ik/main.dic";
 		try {
 			initWordDic(wordFile);
 		} catch (IOException e) {
@@ -42,6 +43,7 @@ public class WordDictionary {
 		BufferedReader br = new BufferedReader(new FileReader(filePath));
 		String line = null;
 		while((line = br.readLine()) != null) {
+			line = line.split("\t")[0];
 			line = line.trim();
 			int tmpLength = line.length();
 			if(tmpLength <= 1) {

@@ -106,7 +106,7 @@ public class Tag extends TagBase{
 			double wordProbility = this.getWordProbility(wordName);
 			accuracy += Math.log(wordProbility * freq + 1);
 		}
-//		accuracy += Math.log(this.tagProbility);
+		accuracy += Math.log(this.tagProbility + 1);
 		return new Result(this.name, accuracy);
 	}
 	

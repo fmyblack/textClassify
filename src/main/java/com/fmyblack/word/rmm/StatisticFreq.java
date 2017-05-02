@@ -2,12 +2,15 @@ package com.fmyblack.word.rmm;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.alibaba.fastjson.JSONObject;
 
 public class StatisticFreq {
 
@@ -40,6 +43,9 @@ public class StatisticFreq {
 	}
 	
 	public void readFile(File f) throws IOException {
+		if(f.getName().equals(".DS_Store")) {
+			return;
+		}
 		BufferedReader br = new BufferedReader(new FileReader(f));
 		String line = null;
 		while((line = br.readLine()) != null) {
@@ -47,9 +53,17 @@ public class StatisticFreq {
 			if(line == "") {
 				continue;
 			}
+//			System.out.println(line);
+			JSONObject jo = JSONObject.parseObject(line);
+			if(jo.containsKey("body")) {
+				line = jo.getString("body");
+			} else {
+				continue;
+			}
 			List<String> l = rmm.rmmSegment(line);
 			addFreq(l);
 		}
+		br.close();
 	}
 	
 	public void addFreq(List<String> list) {
@@ -59,9 +73,24 @@ public class StatisticFreq {
 		}
 	}
 	
+	public void initWords(String file) throws IOException {
+		BufferedReader br = new BufferedReader(new FileReader(file));
+		String line = null;
+		while((line = br.readLine()) != null) {
+			line = line.trim().split("\t")[0].trim();
+			if(line == "") {
+				continue;
+			}
+			map.put(line, 0l);
+		}
+		br.close();
+	}
+	
 	public static void main(String[] args) throws IOException {
 		StatisticFreq s = new StatisticFreq();
-		String f = "";
+		String dic = "/Users/fmyblack/data/ik/nls_dict.data";
+		s.initWords(dic);
+		String f = "/Users/fmyblack/data/caiyun";
 		File dir = new File(f);
 		s.treeDir(dir);
 		String save = "/Users/fmyblack/data/ik/nls_freq.data";

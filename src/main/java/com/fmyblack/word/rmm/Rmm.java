@@ -11,7 +11,7 @@ public class Rmm {
 	static Rmm ins = null;
 	
 	public static void main(String[] args) {
-		String s = "我们是北京,大学的学生 ";
+		String s = "他们在高维正质量猜想上有了突破";
 		Rmm rmm = Rmm.getIns();
 		System.out.println(rmm.rmmSegment(s));
 	}
@@ -23,6 +23,9 @@ public class Rmm {
 		int leaveTextLength = text.length();
 		int rmmMaxLength = this.maxLength < leaveTextLength ? this.maxLength : leaveTextLength;
 		
+		if(rmmMaxLength == 0) {
+			return null;
+		}
 		while(true) {
 			if(leaveTextLength <= 1) {
 				break;
