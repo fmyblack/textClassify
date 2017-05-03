@@ -16,8 +16,10 @@ import org.apache.spark.mllib.linalg.Vector;
 import org.apache.spark.mllib.linalg.Vectors;
 
 import com.fmyblack.word.rmm.Rmm;
-
+import scala.Function1;
+import scala.Function2;
 import scala.Tuple2;
+import scala.runtime.BoxedUnit;
 
 public class TFIDF {
 
@@ -28,14 +30,14 @@ public class TFIDF {
 		JavaSparkContext jsc = new JavaSparkContext(conf);
 
 		List<String> seedDirNames = ReadSeedsFile.listSeedDir(dir);
-		JavaPairRDD<String, String> labeledDocuments = ReadSeedsFile.readSeed(seedDirNames, jsc);
-		JavaRDD<String> documents = labeledDocuments.map(new Function<Tuple2<String, String>, String>() {
-			public String call(Tuple2<String, String> labeledDocument) throws Exception {
-				return labeledDocument._2();
-			};
-		});
+//		JavaPairRDD<String, String> labeledDocuments = ReadSeedsFile.readSeed(seedDirNames, jsc);
+//		JavaRDD<String> documents = labeledDocuments.map(new Function<Tuple2<String, String>, String>() {
+//			public String call(Tuple2<String, String> labeledDocument) throws Exception {
+//				return labeledDocument._2();
+//			};
+//		});
 
-		List<String> list = Arrays.asList(new String[] { "a b", "a c", "a c c" });
+		List<String> list = Arrays.asList(new String[] { "a b b e", "a c f", "a c c" });
 		JavaRDD<List<String>> test = jsc.parallelize(list).map(new Function<String, List<String>>() {
 			@Override
 			public List<String> call(String arg0) throws Exception {
@@ -45,23 +47,25 @@ public class TFIDF {
 		});
 
 		JavaRDD<Vector> vectors = tf(test);
-		Vector v;
 		for (Vector ori : vectors.take(10)) {
-//			if(v == null) {
-//				v = ori;
-//			} else {
-//				v.
-//			}
 			System.out.println(ori);
-			for(Double d : ori.toArray()) {
-				System.out.println(d);
-			}
+//			for(Double d : ori.toArray()) {
+//				System.out.println(d);
+//			}
 		}
-//		IDFModel idfModel = idf(vectors);
-//		for (Vector sample : idfModel.transform(vectors).take(10)) {
-//			System.out.println(sample);
-//		}
-//		
+		IDFModel idfModel = idf(vectors);
+		for (Vector sample : idfModel.transform(vectors).take(10)) {
+			System.out.println(sample);
+			System.out.println(sample.apply(99));
+		}
+		
+		Vector idf = idfModel.idf();
+		HashingTF hashingTF = new HashingTF();
+		for(String s : "a b b e".split(" ")) {
+			int t = hashingTF.indexOf(s);
+			System.out.println(idf.apply(t));
+		}
+		
 //		List<String> l = Arrays.asList(new String[]{"a", "c", "d", "e"});
 //		System.out.println(idfModel.transform(tf(l)));
 	}
@@ -113,6 +117,7 @@ public class TFIDF {
 
 	public static JavaRDD<Vector> tf(JavaRDD<List<String>> documentsSegmentation) {
 		HashingTF hashingTF = new HashingTF();
+		
 		return hashingTF.transform(documentsSegmentation);
 	}
 	
