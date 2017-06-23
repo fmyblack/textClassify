@@ -2,11 +2,12 @@ package com.fmyblack.word.rmm;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.FileReader;
 import java.util.HashSet;
 import java.util.Set;
 
-public class WordDictionary {
+public class WordDictionary implements Serializable {
 
 	Set<String> wordDic = new HashSet();
 	int maxLength = 0;

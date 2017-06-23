@@ -60,7 +60,7 @@ public class StatisticFreq {
 			} else {
 				continue;
 			}
-			List<String> l = rmm.rmmSegment(line);
+			List<String> l = rmm.segment(line);
 			addFreq(l);
 		}
 		br.close();

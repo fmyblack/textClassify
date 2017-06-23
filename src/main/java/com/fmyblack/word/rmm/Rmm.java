@@ -1,9 +1,12 @@
 package com.fmyblack.word.rmm;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Rmm {
+import com.fmyblack.word.WordSegmenter;
+
+public class Rmm implements WordSegmenter,Serializable {
 
 	WordDictionary wd = null;
 	int maxLength;
@@ -13,10 +16,10 @@ public class Rmm {
 	public static void main(String[] args) {
 		String s = "他们在高维正质量猜想上有了突破";
 		Rmm rmm = Rmm.getIns();
-		System.out.println(rmm.rmmSegment(s));
+		System.out.println(rmm.segment(s));
 	}
 	
-	public List<String> rmmSegment(String s){
+	public List<String> segment(String s){
 		List<String> words = new ArrayList<String>();
 		
 		String text = s.trim();
