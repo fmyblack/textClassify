@@ -10,6 +10,7 @@ public class ClassifierFactory {
 
 	public final static String NAIVEBAYES = "naivebayes";
 	public final static String COSINES = "cosine";
+	public final static String LR = "lr";
 	
 	public final static String RMM = "rmm";
 	
@@ -24,7 +25,7 @@ public class ClassifierFactory {
 			return new NaiveBayesClassifier(Rmm.getIns());
 		} else if(modelName.toLowerCase().equals(COSINES) && segmenterName.toLowerCase().equals(RMM)) {
 			return new CosineClassifier(Rmm.getIns());
-		} else if(modelName.toLowerCase().equals("lr") && segmenterName.toLowerCase().equals(RMM)) {
+		} else if(modelName.toLowerCase().equals(LR) && segmenterName.toLowerCase().equals(RMM)) {
 			return new LRClassifier(Rmm.getIns());
 		}
 		return null;
