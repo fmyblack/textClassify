@@ -1,12 +1,11 @@
 package com.fmyblack.word.rmm;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.fmyblack.word.WordSegmenter;
 
-public class Rmm implements WordSegmenter,Serializable {
+public class Rmm implements WordSegmenter {
 
 	WordDictionary wd = null;
 	int maxLength;

@@ -2,14 +2,13 @@ package com.fmyblack.word.rmm;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Serializable;
 import java.io.FileReader;
 import java.util.HashSet;
 import java.util.Set;
 
-public class WordDictionary implements Serializable {
+public class WordDictionary{
 
-	Set<String> wordDic = new HashSet();
+	Set<String> wordDic = new HashSet<String>();
 	int maxLength = 0;
 	
 	private static WordDictionary ins = null;
@@ -30,7 +29,7 @@ public class WordDictionary implements Serializable {
 	}
 	
 	private WordDictionary() {
-		String wordFile = "/Users/fmyblack/javaproject/textClassify/src/main/resources/data/nls_dict.data";
+		String wordFile = "/Users/fmyblack/javaproject/textClassify/dic/nls_dict.data";
 //		String wordFile = "/Users/fmyblack/data/ik/main.dic";
 		try {
 			initWordDic(wordFile);

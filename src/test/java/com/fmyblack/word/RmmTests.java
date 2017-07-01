@@ -24,7 +24,7 @@ public class RmmTests {
 	public void testRmm() {
 		String text = "测试一句话的分词效果";
 		List<String> result = Arrays.asList(new String[]{"效果", "分词", "一句话", "测试"});
-		assertEquals(result, rmm.rmmSegment(text));
+		assertEquals(result, rmm.segment(text));
 	}
 	
 	@After

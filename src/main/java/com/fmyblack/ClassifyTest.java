@@ -9,33 +9,39 @@ import java.util.Map;
 import java.util.Random;
 
 import com.fmyblack.textClassify.ClassifyModel;
-import com.fmyblack.textClassify.naiveBayes.Result;
+import com.fmyblack.textClassify.Result;
 
 import scala.Tuple2;
 
 public class ClassifyTest {
 
 	public static void main(String[] args) {
-		String dir = "/Users/fmyblack/javaproject/textClassify/src/main/resources/data";
-		String seedsDir = dir + File.separator + "nbc_seeds";
-//		
+		String userDirPath = System.getProperty("user.dir");
+		String seedsDir = userDirPath + File.separator + "seeds";
 		
-		Tuple2<Map<String, List<String>>, Map<String, List<String>>> trainAndValidation = 
-				divideSeedsToTrainAndValidation(seedsDir, 0.7);
-		Map<String, List<String>> trainSeeds = trainAndValidation._1();
-		Map<String, List<String>> validationSeeds = trainAndValidation._2();
+		double trainDataPercent = 0.7;
+		Tuple2<Map<String, List<String>>, Map<String, List<String>>> trainAndtestSeeds = 
+				divideSeedsToTrainAndTest(seedsDir, trainDataPercent);
+		Map<String, List<String>> trainSeeds = trainAndtestSeeds._1();
+		Map<String, List<String>> testSeeds = trainAndtestSeeds._2();
 		
 		ClassifierFactory cf = new ClassifierFactory(seedsDir);
-		ClassifyModel cModel = cf.getClassifyModel("naivebayes", "rmm");
+//		ClassifyModel cModel = cf.getClassifyModel("naiveBayes", "rmm");
+		ClassifyModel cModel = cf.getClassifyModel("lr", "rmm");
 		
+		long start = System.currentTimeMillis();
 		cModel.train(trainSeeds);
-		testAccuracy(cModel, validationSeeds);
+		long trainEnd = System.currentTimeMillis();
+		testAccuracy(cModel, testSeeds);
+		long classifyEnd = System.currentTimeMillis();
+		System.out.println("训练耗时:\t" + (trainEnd - start) + "ms");
+		System.out.println("分类耗时:\t" + (classifyEnd - trainEnd) + "ms");
 	}
 	
-	public static void testAccuracy(ClassifyModel cModel, Map<String, List<String>> validationSeeds) {
+	public static void testAccuracy(ClassifyModel cModel, Map<String, List<String>> testSeeds) {
 		int right = 0;
 		int all = 0;
-		for(Map.Entry<String, List<String>> entry : validationSeeds.entrySet()) {
+		for(Map.Entry<String, List<String>> entry : testSeeds.entrySet()) {
 			String tag = entry.getKey();
 			for(String docPath : entry.getValue()) {
 				Result result = cModel.classify(docPath);
@@ -52,9 +58,9 @@ public class ClassifyTest {
 		System.out.println("准确率为 " + df.format(right * 1.0 / all * 100) + "%");
 	}
 	
-	public static Tuple2<Map<String, List<String>>, Map<String, List<String>>> divideSeedsToTrainAndValidation(String seedsDir, double trainPercent) {
+	public static Tuple2<Map<String, List<String>>, Map<String, List<String>>> divideSeedsToTrainAndTest(String seedsDir, double trainDataPercent) {
 		Map<String, List<String>> trainData = new HashMap<String, List<String>>();
-		Map<String, List<String>> validationData = new HashMap<String, List<String>>();
+		Map<String, List<String>> testData = new HashMap<String, List<String>>();
 		
 		Random rand = new Random();
 		
@@ -64,16 +70,16 @@ public class ClassifyTest {
 			List<String> trainSeeds = new ArrayList<String>();
 			List<String> validationSeeds = new ArrayList<String>();
 			for(File seed : tag.listFiles()) {
-				if(rand.nextDouble() <= trainPercent) {
+				if(rand.nextDouble() <= trainDataPercent) {
 					trainSeeds.add(seed.getAbsolutePath());
 				} else {
 					validationSeeds.add(seed.getAbsolutePath());
 				}
 			}
 			trainData.put(tagName, trainSeeds);
-			validationData.put(tagName, validationSeeds);
+			testData.put(tagName, validationSeeds);
 		}
 		
-		return new Tuple2<Map<String, List<String>>, Map<String, List<String>>>(trainData, validationData);
+		return new Tuple2<Map<String, List<String>>, Map<String, List<String>>>(trainData, testData);
 	}
 }
