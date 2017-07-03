@@ -3,6 +3,7 @@ package com.fmyblack.word.rmm;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fmyblack.word.WordDictionary;
 import com.fmyblack.word.WordSegmenter;
 
 public class Rmm implements WordSegmenter {
@@ -10,14 +11,12 @@ public class Rmm implements WordSegmenter {
 	WordDictionary wd = null;
 	int maxLength;
 	
-	static Rmm ins = null;
-	
-	public static void main(String[] args) {
-		String s = "他们在高维正质量猜想上有了突破";
-		Rmm rmm = Rmm.getIns();
-		System.out.println(rmm.segment(s));
+	public Rmm() {
+		wd = WordDictionary.getIns();
+		maxLength = wd.getMaxLength();
 	}
-	
+
+	@Override
 	public List<String> segment(String s){
 		List<String> words = new ArrayList<String>();
 		
@@ -53,15 +52,4 @@ public class Rmm implements WordSegmenter {
 		return words;
 	}
 	
-	public static synchronized Rmm getIns() {
-		if(ins == null) {
-			ins = new Rmm();
-		}
-		return ins;
-	}
-	
-	private Rmm() {
-		wd = WordDictionary.getIns();
-		maxLength = wd.getMaxLength();
-	}
 }

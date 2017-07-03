@@ -1,4 +1,4 @@
-package com.fmyblack.word.rmm;
+package com.fmyblack.word;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,8 +29,8 @@ public class WordDictionary{
 	}
 	
 	private WordDictionary() {
-		String wordFile = "/Users/fmyblack/javaproject/textClassify/dic/nls_dict.data";
-//		String wordFile = "/Users/fmyblack/data/ik/main.dic";
+		String userDirPath = System.getProperty("user.dir");
+		String wordFile = userDirPath + "/dic/nls_dict.data";
 		try {
 			initWordDic(wordFile);
 		} catch (IOException e) {

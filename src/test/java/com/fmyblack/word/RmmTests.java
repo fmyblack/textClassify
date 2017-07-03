@@ -17,7 +17,7 @@ public class RmmTests {
 	
 	@Before
 	public void setUp() {
-		rmm = Rmm.getIns();
+		rmm = new Rmm();
 	}
 	
 	@Test

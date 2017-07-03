@@ -11,7 +11,6 @@ import com.fmyblack.textClassify.doc.Document;
 import com.fmyblack.textClassify.doc.IDFDocIterable;
 import com.fmyblack.textClassify.doc.TFDocIterable;
 import com.fmyblack.word.WordSegmenter;
-import com.fmyblack.word.rmm.Rmm;
 
 public class CosineClassifier implements ClassifyModel {
 
@@ -19,7 +18,7 @@ public class CosineClassifier implements ClassifyModel {
 	WordSegmenter	ws;
 
 	public CosineClassifier(WordSegmenter wordSegmenter) {
-		ws = Rmm.getIns();
+		ws = wordSegmenter;
 	};
 
 	public void train(Map<String, List<String>> trainSeeds) {

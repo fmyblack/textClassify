@@ -26,8 +26,8 @@ public class ClassifyTest {
 		Map<String, List<String>> testSeeds = trainAndtestSeeds._2();
 		
 		ClassifierFactory cf = new ClassifierFactory(seedsDir);
-		ClassifyModel cModel = cf.getClassifyModel("naiveBayes", "rmm");
-//		ClassifyModel cModel = cf.getClassifyModel("cosine", "rmm");
+		ClassifyModel cModel = cf.getClassifyModel("naiveBayes", "mm");
+//		ClassifyModel cModel = cf.getClassifyModel("cosine", "mm");
 		
 		long start = System.currentTimeMillis();
 		cModel.train(trainSeeds);
