@@ -5,6 +5,7 @@ import com.fmyblack.textClassify.cosine.CosineClassifier;
 import com.fmyblack.textClassify.lr.LRClassifier;
 import com.fmyblack.textClassify.naiveBayes.NaiveBayesClassifier;
 import com.fmyblack.word.WordSegmenter;
+import com.fmyblack.word.character.SingleCharacter;
 import com.fmyblack.word.rmm.Rmm;
 import com.fmyblack.word.mm.MM;
 
@@ -16,6 +17,7 @@ public class ClassifierFactory {
 	
 	public final static String MM = "mm";
 	public final static String RMM = "rmm";
+	public final static String sw = "sw";
 	
 	String seedsDir;
 	
@@ -42,6 +44,8 @@ public class ClassifierFactory {
 			seg = new MM();
 		} else if(segmenterName.equals(RMM)) {
 			seg = new Rmm();
+		} else if(segmenterName.equals(sw)) {
+			seg = new SingleCharacter();
 		}
 		
 		return seg;
