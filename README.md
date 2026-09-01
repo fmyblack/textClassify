@@ -1,3 +1,5 @@
+
+
 文本分类多种算法的实现与效果测试
 ========
 
@@ -23,7 +25,7 @@
 
 1. `com.fmyblack.ClassifyTest`为入口类，`main`方法中完成了将所有文本按一定比例随机分为训练集，测试集，使用工厂类获取对应的分类器，训练分类器，使用分类器测试测试集获得分类效果；
 2. `com.fmyblack.ClassifierFactory`为工厂类，使用`getClassifyModel`方法组装分类算法和分词算法即可获得分类器；
-3. 项目目前包含朴素贝叶斯（`com.fmyblack.textClassify.naiveBaye`），逻辑回归（`com.fmyblack.textClassify.lr`），余弦定理（`com.fmyblack.textClassify.cosine`）多个分类模型，也包含逆向最大匹配（`com.fmyblack.word.rmm`）多个分词算法，测试效果时可自由组装。
+3. 项目目前包含朴素贝叶斯（`com.fmyblack.textClassify.naiveBayes`），逻辑回归（`com.fmyblack.textClassify.lr`），余弦定理（`com.fmyblack.textClassify.cosine`）多个分类模型，也包含逆向最大匹配（`com.fmyblack.word.rmm`）多个分词算法，测试效果时可自由组装。
 
 
 
